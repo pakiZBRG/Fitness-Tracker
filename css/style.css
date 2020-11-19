@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Ubuntu';
+}
+
+#workout {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+#workout h3 {
+  cursor: pointer;
+  margin: 0;
+  width: 100%;
+  padding: 1rem 0;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+h2 {
+  margin: 0;
+}
+
+#messages div {
+  display: none;
+}
+
+.black {
+  background: #333;
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+
+#push, #pull, #legs, #rest {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 1rem 0;
+  background: #333;
+  color: #fff;
+}
+
+#display {
+  width: 80%;
+  margin: 4rem auto 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.workout-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-shadow: 0px 0px 10px #333;
+          box-shadow: 0px 0px 10px #333;
+  padding: 1rem 2rem;
+}
+
+.workout-card img {
+  height: 100px;
+}
+/*# sourceMappingURL=style.css.map */
