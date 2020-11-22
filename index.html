@@ -4,8 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/style.css">
-        <script src="addWorkout.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
         <title>Fitness Journal</title>
     </head>
 
@@ -19,20 +18,22 @@
             <h3 id='work' rel='rest'>Rest</h3>
         </div>
         <div class='workout-types'>
-
             <div id='push' style='display:none'>
                 <h3>Push</h3>
                 <button id='addPush'>+</button>
                 <div id='pushes'>
-                    <select id='push-wourkouts'>
-                        <option value='Pushups'>Pushups</option>
-                        <option value='Dips'>Dips</option>
-                        <option value='Bench Press'>Bench Press</option>
-                        <option value='Triceps Extension'>Triceps Extension</option>
-                        <option value='Military Press'>Military Press</option>
-                        <option value='Cable Pull'>Cable Pull</option>
-                        <option value='Hindu Pushups'>Hindu Pushups</option>
-                    <select>
+                    <div class='single'>
+                        <select id='push-wourkouts'>
+                            <option value='Pushups'>Pushups</option>
+                            <option value='Dips'>Dips</option>
+                            <option value='Bench Press'>Bench Press</option>
+                            <option value='Triceps Extension'>Triceps Extension</option>
+                            <option value='Military Press'>Military Press</option>
+                            <option value='Cable Pull'>Cable Pull</option>
+                            <option value='Hindu Pushups'>Hindu Pushups</option>
+                        </select>
+                        <input type='number' placeholder='Number of reps' min="0"/>
+                    </div>
                 </div>
                 <button id='savePush'>Save Workout</button>
             </div>
@@ -41,13 +42,17 @@
                 <h3>Pull</h3>
                 <button id='addPull'>+</button>
                 <div id='pulls'>
-                    <select id='pull-wourkouts'>
-                        <option value='Pullups'>Pullups</option>
-                        <option value='Deadlift'>Deadlift</option>
-                        <option value='Dead Hang'>Dead Hang</option>
-                        <option value='Bicep Curl'>Bicep Curl</option>
-                        <option value='Barbel Row'>Barbel Row</option>
-                    <select>
+                    <div class='single'>
+                        <select id='pull-wourkouts'>
+                            <option value='Pullups'>Pullups</option>
+                            <option value='Deadlift'>Deadlift</option>
+                            <option value='Dead Hang'>Dead Hang</option>
+                            <option value='Bicep Curl'>Bicep Curl</option>
+                            <option value='Barbel Row'>Barbel Row</option>
+                            <option value='Shadow Boxing'>Shadow Boxing</option>
+                        </select>
+                        <input type='number' placeholder='Number of reps' min="0"/>
+                    </div>
                 </div>
                 <button id='savePull'>Save Workout</button>
             </div>
@@ -56,13 +61,16 @@
                 <h3>Legs</h3>
                 <button id='addLegs'>+</button>
                 <div id='legses'>
-                    <select id='legs-wourkouts'>
-                        <option value='Squat'>Squat</option>
-                        <option value='Calf Raises'>Calf Raises</option>
-                        <option value='Pistol Squat'>Pistol Squat</option>
-                        <option value='Weighted Squat'>Weighted Squat</option>
-                        <option value='Jogging/Sprinting'>Jogging/Sprinting</option>
-                    <select>
+                    <div class='single'>
+                        <select id='legs-wourkouts'>
+                            <option value='Squat'>Squat</option>
+                            <option value='Calf Raises'>Calf Raises</option>
+                            <option value='Pistol Squat'>Pistol Squat</option>
+                            <option value='Weighted Squat'>Weighted Squat</option>
+                            <option value='Jogging/Sprinting'>Jogging/Sprinting</option>
+                        </select>
+                        <input type='number' placeholder='Number of reps' min="0"/>
+                    </div>
                 </div>
                 <button id='saveLegs'>Save Workout</button>
             </div>
@@ -74,6 +82,16 @@
             </div>
         </div>
 
-        <div id='display'></div>
+        <div id='displayWorkouts'></div>
+
+        <h3 id='month'>This Month - </h3>
+        <div id='types'></div>
+        <div class="chart-container" style="height:40vh; width:100%">
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="addWorkout.js"></script>
+        <script src="MonthlyOverview.js"></script>
     </body>
 </html>
