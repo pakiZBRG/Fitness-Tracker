@@ -20,13 +20,19 @@ window.onload = () =>  {
                 }
             }
             workouts = JSON.parse(localStorage.getItem('workouts')) || [];
-            workouts.push({
-                "type": e.target.parentNode.id,
-                "exercises": exercise,
-                "date": final_date
-            })
+            if(exercise.length){
+                workouts.push({
+                    "type": e.target.parentNode.id,
+                    "exercises": exercise,
+                    "date": final_date
+                })
+            } else {
+                alert('Insert exercises')
+            }
+            for (const [key, value] of Object.entries(single)) {
+                value.children[1].value = '';
+            }
             localStorage.setItem('workouts', JSON.stringify(workouts));
-            exercise = [];
         })
     }
 

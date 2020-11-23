@@ -7,14 +7,17 @@ $('#month').append(currentMonth);
 
 const types = document.getElementById('types');
 
-let doneByMonth = []
+let doneByMonth = [];
 let workouts = JSON.parse(localStorage.getItem('workouts')) || [];
+console.log(workouts)
 workouts.map(workout => {
     // Filter done workouts by month
-    if(currentMonth.includes(workout.date.split(' ')[1])){
+    if(currentMonth.includes(workout.date.split(' ')[1]) && workout.exercises){
         workout.exercises.map(a => doneByMonth.push(a));
     }
 });
+
+console.log(doneByMonth)
 
 // Get all done exercises and sum their reps
 var counts = [];
@@ -23,11 +26,15 @@ unique.map(i => counts.push({"name": i, "reps": []}))
 counts.map(i => doneByMonth.map(a => a.Name === i.name && i.reps.push(parseInt(a.Reps))))
 counts.map(single => {
     types.innerHTML += `
-        <div>
+        <div class='workout-log' id='asd'>
             <p>${single.name} ${single.reps.reduce((a, b) => a+b, 0)} [${single.reps.map(a => a)}]</p>
         </div>
     `
 });
+
+const asd = document.querySelectorAll('#asd');
+asd.map
+
 const a = getDaysInMonth(d.getMonth()+1, currentYear)
 let days = [];
 for(let i = 1; i < a+1; i++) days.push(i);
@@ -45,6 +52,19 @@ new Chart(document.getElementById('myChart').getContext('2d'), {
             data: reps
         }]
     },
+    options: {}
+});
 
+new Chart(document.getElementById('myChart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: days,
+        datasets: [{
+            label: 'Pushups',
+            backgroundColor: 'rgba(136, 0, 2, .4)',
+            borderColor: 'rgb(136, 0, 2)',
+            data: reps
+        }]
+    },
     options: {}
 });
