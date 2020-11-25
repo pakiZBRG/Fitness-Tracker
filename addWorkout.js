@@ -12,10 +12,12 @@ window.onload = () =>  {
         $(loc).on('click', function(e){
             let exercise = [];
             for (const [key, value] of Object.entries(single)) {
-                if(value.children[1].value !== ''){
+                if(value.children[1].value && e.target.previousElementSibling.value){
+                    const savedDate = e.target.previousElementSibling.valueAsDate.toUTCString()
                     exercise.push({
-                        'Name': value.children[0].value,
-                        'Reps': value.children[1].value
+                        'name': value.children[0].value,
+                        'reps': value.children[1].value,
+                        "date": savedDate.substr(0, 16)
                     })
                 }
             }
@@ -23,8 +25,7 @@ window.onload = () =>  {
             if(exercise.length){
                 workouts.push({
                     "type": e.target.parentNode.id,
-                    "exercises": exercise,
-                    "date": final_date
+                    "exercises": exercise
                 })
             } else {
                 alert('Insert exercises')
@@ -59,6 +60,7 @@ window.onload = () =>  {
                         <option value='Military Press'>Military Press</option>
                         <option value='Cable Pull'>Cable Pull</option>
                         <option value='Hindu Pushups'>Hindu Pushups</option>
+                        <option value='Ab Rollout'>Ab Rollout</option>
                     </select>
                     <input type='text' placeholder='Number of reps' min="0"/>
                 </div>
@@ -77,6 +79,7 @@ window.onload = () =>  {
                         <option value='Deadlift'>Deadlift</option>
                         <option value='Dead Hang'>Dead Hang</option>
                         <option value='Bicep Curl'>Bicep Curl</option>
+                        <option value='Diver Pullup'>Diver Pullup</option>
                         <option value='Barbel Row'>Barbel Row</option>
                         <option value='Shadow Boxing'>Shadow Boxing</option>
                     </select>
@@ -97,6 +100,7 @@ window.onload = () =>  {
                         <option value='Calf Raises'>Calf Raises</option>
                         <option value='Pistol Squat'>Pistol Squat</option>
                         <option value='Weighted Squat'>Weighted Squat</option>
+                        <option value='Romanian Deadlift'>Romanian Deadlift</option>
                         <option value='Jogging/Sprinting'>Jogging/Sprinting</option>
                     </select>
                     <input type='number' placeholder='Number of reps' min="0"/>
@@ -118,7 +122,6 @@ window.onload = () =>  {
 
     // Render workouts on screen
     workouts = JSON.parse(localStorage.getItem('workouts')) || [];
-    localStorage.setItem('workouts', JSON.stringify(workouts));
     workouts.map(workout => {
         display.innerHTML += `
             <div class='workout-card'>
@@ -131,12 +134,12 @@ window.onload = () =>  {
                             ? "<img src='./media/leg.png'/>" 
                             : "<img src='./media/rest.png'/>"}
                 <h2>${workout.type}</h2>
-                <p>${workout.date}</p>
+                <p>${workout.exercises[0].date}</p>
                 <div>
                     ${workout.exercises 
                         ? workout.exercises.map(exercise => `
                             <div>
-                                <p>${exercise.Name} -> ${exercise.Reps}</p>
+                                <p>${exercise.name} -> ${exercise.reps}</p>
                             </div>
                         `).join('')
                         : ''}

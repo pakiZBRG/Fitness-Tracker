@@ -3,7 +3,7 @@ const monthNames = ["January", "February", "March", "April", "May", "June","July
 const currentMonth = monthNames[d.getMonth()]
 const currentYear = d.getFullYear();
 const getDaysInMonth = (month,year) => new Date(year, month, 0).getDate();
-$('#month').append(currentMonth);
+$('#month').append(`Overview of ${currentMonth} ${currentYear}`);
 
 const types = document.getElementById('types');
 
@@ -11,25 +11,22 @@ let doneByMonth = []
 let workouts = JSON.parse(localStorage.getItem('workouts')) || [];
 workouts.map(workout => {
     // Filter done workouts by month
-    if(currentMonth.includes(workout.date.split(' ')[1]) && workout.exercises){
+    if(currentMonth.includes(workout.exercises[0].date.split(' ')[2]) && workout.exercises){
         workout.exercises.map(a => doneByMonth.push(a));
-        doneByMonth.map(a => a['date'] = workout.date)
+        
     }
 });
 
-console.log(doneByMonth)
-
 // Get all done exercises and sum their reps
 var counts = [];
-let unique = [...new Set(doneByMonth.map(a => a.Name))]
+let unique = [...new Set(doneByMonth.map(a => a.name))]
 unique.map(i => counts.push({"name": i, "reps": []}))
-counts.map(i => doneByMonth.map(a => a.Name === i.name && i.reps.push({"num": parseInt(a.Reps), "date": a.date})))
-console.log(counts)
+counts.map(i => doneByMonth.map(a => a.name === i.name && i.reps.push({"num": parseInt(a.reps), "date": a.date})))
 counts.map(single => {
     types.innerHTML += `
         <div class='workout-log'>
             <h3>${single.name} - ${single.reps.reduce((a, b) => a+b.num, 0)}</h3>
-            ${single.reps.map(a => `<p>${a.date.substr(0, 6)} - ${a.num}</p>`).join('')}
+            ${single.reps.map(a => `<p>${a.date.substr(5, 11)} - ${a.num}</p>`).join('')}
         </div>
     `
 });
@@ -40,6 +37,8 @@ let days = [];
 for(let i = h; i < a+1; i++) days.push(i);
 let reps = []
 counts.map(count => count.reps.map(rep => reps.push(rep.num)));
+console.log(reps)
+console.log(days)
 
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
