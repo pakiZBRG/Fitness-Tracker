@@ -69,7 +69,7 @@ window.onload = () =>  {
     });
     saveWorkout('#savePush')
 
-    //PULL
+    //PULL`
     $('#addPull').on('click', function(e){
         if(e.target.parentNode.id === 'pull'){
             $('#pulls').append(`

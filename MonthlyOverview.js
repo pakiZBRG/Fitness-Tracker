@@ -21,7 +21,9 @@ workouts.map(workout => {
 var counts = [];
 let unique = [...new Set(doneByMonth.map(a => a.name))]
 unique.map(i => counts.push({"name": i, "reps": []}))
-counts.map(i => doneByMonth.map(a => a.name === i.name && i.reps.push({"num": parseInt(a.reps), "date": a.date})))
+counts.map(i => doneByMonth.map(a => a.name === i.name && i.reps.push({"num": parseInt(a.reps), "date": a.date})));
+//Sort by date ascending
+counts.map(count => count.reps.sort((a, b) => parseInt(a.date.split(' ')[1]) - parseInt(b.date.split(' ')[1])));
 counts.map(single => {
     types.innerHTML += `
         <div class='workout-log'>
@@ -31,23 +33,46 @@ counts.map(single => {
     `
 });
 
-const a = getDaysInMonth(d.getMonth()+1, currentYear)
-const h = d.getDate();
-let days = [];
-for(let i = h; i < a+1; i++) days.push(i);
-let reps = []
-counts.map(count => count.reps.map(rep => reps.push(rep.num)));
-console.log(reps)
-console.log(days)
+//Get all days I have worked for each workout
+const days = [];
+unique.map(single => {
+    counts.map(count => count.name === single && count.reps.map(a => days.push(parseInt(a.date.split(' ')[1]))));
+    return days
+});
 
-var ctx = document.getElementById('myChart').getContext('2d');
+//Get all reps I have worked for each workout
+const reps = [];
+
+counts.map(count => count.name === 'Pushups' && reps.push(count.reps.map(a => a.num)));
+
+
+console.log(reps);
+
+
+const t = []
+counts.map(count => {
+    const data = {
+        datasets: [{
+            label: count.name,
+            data: count.reps.map(a => a.num),
+            backgroundColor: ['rgba(0, 96, 255, 0.2)'],
+            borderColor: ['rgba(0, 96, 255, 1)'],
+            borderWidth: 2
+        }]
+    }
+    t.push(data)
+})
+
+t.map(a => console.log(a.datasets[0]))
+
+var ctx = document.getElementById('myChart');
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: days,
+        labels: [...new Set(days)],
         datasets: [{
             label: 'Pushes',
-            data: reps,
+            data: reps[0],
             backgroundColor: ['rgba(255, 99, 132, 0.2)'],
             borderColor: ['rgba(255, 99, 132, 1)'],
             borderWidth: 2
@@ -56,9 +81,7 @@ var myChart = new Chart(ctx, {
     options: {
         scales: {
             yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
+                ticks: {beginAtZero: true}
             }]
         }
     }
