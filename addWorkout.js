@@ -63,13 +63,14 @@ window.onload = () =>  {
                         <option value='Ab Rollout'>Ab Rollout</option>
                     </select>
                     <input type='text' placeholder='Number of reps' min="0"/>
+                    <button id='removeExercise'>-</button>
                 </div>
             `);
         }
     });
     saveWorkout('#savePush')
 
-    //PULL`
+    //PULL
     $('#addPull').on('click', function(e){
         if(e.target.parentNode.id === 'pull'){
             $('#pulls').append(`
@@ -84,6 +85,7 @@ window.onload = () =>  {
                         <option value='Shadow Boxing'>Shadow Boxing</option>
                     </select>
                     <input type='number' placeholder='Number of reps' min="0"/>
+                    <button id='removeExercise'>-</button>
                 </div>
             `);
         }
@@ -104,8 +106,16 @@ window.onload = () =>  {
                         <option value='Jogging/Sprinting'>Jogging/Sprinting</option>
                     </select>
                     <input type='number' placeholder='Number of reps' min="0"/>
+                    <button class='removeExercise'>-</button>
                 </div>
-            `);
+            `).ready(function(){
+                $('.removeExercise').on('click', function(e){
+                    const exercises = Array.from(e.target.parentNode.parentNode.children);
+                    var index = $('.removeExercise').index(this);
+                    exercises.splice(index, 1);
+                    console.log(e.target.parentNode.parentNode.children)
+                })
+            });
         }
     });
     saveWorkout('#saveLegs');
@@ -158,7 +168,10 @@ window.onload = () =>  {
     $('.workout-card__close').click(function(){
         var index = $('.workout-card__close').index(this);
         workouts.splice(index, 1);
-        $('.workout-card').css({'opacity': '0', "visibility": "hidden", "transition": "500ms"});
         localStorage.setItem('workouts', JSON.stringify(workouts));
+        console.log(JSON.parse(localStorage.getItem('workouts')))
     });
+
+    //Remove exercise from exercise list
+    
 }
