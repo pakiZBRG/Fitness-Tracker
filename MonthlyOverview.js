@@ -6,6 +6,7 @@ const getDaysInMonth = (month,year) => new Date(year, month, 0).getDate();
 $('#month').append(`Overview of ${currentMonth} ${currentYear}`);
 
 const types = document.getElementById('types');
+const records = document.getElementById('records');
 
 let doneByMonth = []
 let workouts = JSON.parse(localStorage.getItem('workouts')) || [];
@@ -13,7 +14,6 @@ workouts.map(workout => {
     // Filter done workouts by month
     if(currentMonth.includes(workout.exercises[0].date.split(' ')[2]) && workout.exercises){
         workout.exercises.map(a => doneByMonth.push(a));
-        
     }
 });
 
@@ -23,7 +23,7 @@ let unique = [...new Set(doneByMonth.map(a => a.name))]
 unique.map(i => counts.push({"name": i, "reps": []}))
 counts.map(i => doneByMonth.map(a => a.name === i.name && i.reps.push({"num": parseInt(a.reps), "date": a.date})));
 //Sort by date ascending
-counts.map(count => count.reps.sort((a, b) => parseInt(a.date.split(' ')[1]) - parseInt(b.date.split(' ')[1])));
+counts.map(count => count.reps.sort((a, b) => parseInt(b.date.split(' ')[1]) - parseInt(a.date.split(' ')[1])));
 counts.map(single => {
     types.innerHTML += `
         <div class='workout-log'>
@@ -37,52 +37,71 @@ counts.map(single => {
 const days = [];
 unique.map(single => {
     counts.map(count => count.name === single && count.reps.map(a => days.push(parseInt(a.date.split(' ')[1]))));
-    return days
+    return days.sort((a, b) => a-b)
 });
-
-//Get all reps I have worked for each workout
-const reps = [];
-
-counts.map(count => count.name === 'Pushups' && reps.push(count.reps.map(a => a.num)));
-
-
-console.log(reps);
-
 
 const t = []
 counts.map(count => {
+    const singleData = []
+    count.reps.map(a => singleData.push({ "y": a.num, "x": parseInt(a.date.split(' ')[1])}));
     const data = {
-        datasets: [{
-            label: count.name,
-            data: count.reps.map(a => a.num),
-            backgroundColor: ['rgba(0, 96, 255, 0.2)'],
-            borderColor: ['rgba(0, 96, 255, 1)'],
-            borderWidth: 2
-        }]
+        name: count.name,
+        connectNullData: true,
+        nullDataLineDashType: "solid",
+        fillOpacity: .15,
+        type: "area",
+        yValueFormatString: "### reps",
+        showInLegend: true,
+        dataPoints: singleData.map(print => print)
     }
     t.push(data)
 })
 
-t.map(a => console.log(a.datasets[0]))
-
-var ctx = document.getElementById('myChart');
-var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: [...new Set(days)],
-        datasets: [{
-            label: 'Pushes',
-            data: reps[0],
-            backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-            borderColor: ['rgba(255, 99, 132, 1)'],
-            borderWidth: 2
-        }]
+const chart = new CanvasJS.Chart("chartContainer", {
+    animationEnabled: true,
+    animationDuration: 1200,
+    theme: 'light2',
+    title:{
+        text: "Overview"
     },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {beginAtZero: true}
-            }]
-        }
-    }
+    axisX: {
+        title: "Date",
+        interval: 1,
+        gridThickness: 1,
+        labelFontStyle: 'italic',
+        gridColor: '#dcdcdc'
+    },
+    axisY: {
+        title: "Number of reps",
+        gridColor: '#dcdcdc',
+        tickThickness: 1,
+        gridThickness: 1,
+        labelFontWeight: "bolder",
+        labelFontSize: 16,
+        tickLength: 0
+    },
+    legend:{
+        cursor: "pointer",
+        fontSize: 16
+    },
+    toolTip:{
+        shared: true
+    },
+    data: t.map(exercise => exercise)
 });
+
+chart.render();
+
+// Getting the record of each exercise
+let singleRecord = [];
+counts.map(a => singleRecord.push({"name": a.name, "reps": a.reps.map(a => a.num)}));
+let max = [];
+singleRecord.map(a => max.push({"name": a.name, "max": Math.max(...a.reps)}))
+
+max.map(single => {
+    records.innerHTML += `
+        <div>
+            ${single.name} ${single.max}
+        </div>
+    `
+})

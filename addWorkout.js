@@ -6,7 +6,7 @@ window.onload = () =>  {
     const date = new Date();
     const human_date = date.toUTCString().substr(0, 16).replace(',', '');
     const my_date = human_date.split(' ');
-    const final_date = `${my_date[1]} ${my_date[2]} ${my_date[3]}, ${my_date[0]}`;
+    const final_date = `${my_date[0]}, ${my_date[1]} ${my_date[2]} ${my_date[3]}`;
 
     const saveWorkout = (loc) => {
         $(loc).on('click', function(e){
@@ -115,43 +115,50 @@ window.onload = () =>  {
         workouts = JSON.parse(localStorage.getItem('workouts')) || [];
         workouts.push({
             "type": "rest",
-            "date": final_date
+            "exercises": [{"name": "Rest", "reps": "", "date": final_date}]
         })
         localStorage.setItem('workouts', JSON.stringify(workouts));
-    })
+    });
 
-    // Render workouts on screen
+    
+    // Render workouts on screen by month
+    const d = new Date();
+    const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
+    const currentMonth = monthNames[d.getMonth()];
     workouts = JSON.parse(localStorage.getItem('workouts')) || [];
     workouts.map(workout => {
-        display.innerHTML += `
-            <div class='workout-card'>
-                <span class='workout-card__close'>&times;</span>
-                ${workout.type === 'pull' 
-                    ? "<img src='./media/pullup.png'/>" 
-                    : workout.type === 'push' 
-                        ? "<img src='./media/pushup.png'/>" 
-                        : workout.type === 'legs' 
-                            ? "<img src='./media/leg.png'/>" 
-                            : "<img src='./media/rest.png'/>"}
-                <h2>${workout.type}</h2>
-                <p>${workout.exercises[0].date}</p>
-                <div>
-                    ${workout.exercises 
-                        ? workout.exercises.map(exercise => `
-                            <div>
-                                <p>${exercise.name} -> ${exercise.reps}</p>
-                            </div>
-                        `).join('')
-                        : ''}
+        console.log(workout)
+        if(currentMonth.includes(workout.exercises[0].date.split(' ')[2]))
+            display.innerHTML += `
+                <div class='workout-card'>
+                    <span class='workout-card__close'>&times;</span>
+                    ${workout.type === 'pull' 
+                        ? "<img src='./media/pullup.png'/>" 
+                        : workout.type === 'push' 
+                            ? "<img src='./media/pushup.png'/>" 
+                            : workout.type === 'legs' 
+                                ? "<img src='./media/leg.png'/>" 
+                                : "<img src='./media/rest.png'/>"}
+                    <h2>${workout.type}</h2>
+                    ${workout.exercises[0].date && `<p>${workout.exercises[0].date}</p>`}
+                    <div>
+                        ${workout.exercises[0].name 
+                            ? workout.exercises.map(exercise => `
+                                <div>
+                                    <p>${exercise.name} -> ${exercise.reps}</p>
+                                </div>
+                            `).join('')
+                            : ''}
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
     });
 
     // Remove item from array and ls on clicked x
     $('.workout-card__close').click(function(){
         var index = $('.workout-card__close').index(this);
         workouts.splice(index, 1);
+        $('.workout-card').css({'opacity': '0', "visibility": "hidden", "transition": "500ms"});
         localStorage.setItem('workouts', JSON.stringify(workouts));
     });
 }
