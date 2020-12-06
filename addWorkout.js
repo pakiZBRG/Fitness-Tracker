@@ -108,14 +108,7 @@ window.onload = () =>  {
                     <input type='number' placeholder='Number of reps' min="0"/>
                     <button class='removeExercise'>-</button>
                 </div>
-            `).ready(function(){
-                $('.removeExercise').on('click', function(e){
-                    const exercises = Array.from(e.target.parentNode.parentNode.children);
-                    var index = $('.removeExercise').index(this);
-                    exercises.splice(index, 1);
-                    console.log(e.target.parentNode.parentNode.children)
-                })
-            });
+            `);
         }
     });
     saveWorkout('#saveLegs');
@@ -134,10 +127,9 @@ window.onload = () =>  {
     // Render workouts on screen by month
     const d = new Date();
     const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
-    const currentMonth = monthNames[d.getMonth()];
+    const currentMonth = monthNames[d.getMonth() - 1];
     workouts = JSON.parse(localStorage.getItem('workouts')) || [];
     workouts.map(workout => {
-        console.log(workout)
         if(currentMonth.includes(workout.exercises[0].date.split(' ')[2]))
             display.innerHTML += `
                 <div class='workout-card'>
