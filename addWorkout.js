@@ -25,7 +25,8 @@ window.onload = () =>  {
             if(exercise.length){
                 workouts.push({
                     "type": e.target.parentNode.id,
-                    "exercises": exercise
+                    "exercises": exercise,
+                    "date": exercise[0].date
                 })
             } else {
                 alert('Insert exercises')
@@ -63,7 +64,6 @@ window.onload = () =>  {
                         <option value='Ab Rollout'>Ab Rollout</option>
                     </select>
                     <input type='text' placeholder='Number of reps' min="0"/>
-                    <button id='removeExercise'>-</button>
                 </div>
             `);
         }
@@ -85,7 +85,6 @@ window.onload = () =>  {
                         <option value='Shadow Boxing'>Shadow Boxing</option>
                     </select>
                     <input type='number' placeholder='Number of reps' min="0"/>
-                    <button id='removeExercise'>-</button>
                 </div>
             `);
         }
@@ -106,7 +105,6 @@ window.onload = () =>  {
                         <option value='Jogging/Sprinting'>Jogging/Sprinting</option>
                     </select>
                     <input type='number' placeholder='Number of reps' min="0"/>
-                    <button class='removeExercise'>-</button>
                 </div>
             `);
         }
@@ -123,13 +121,13 @@ window.onload = () =>  {
         localStorage.setItem('workouts', JSON.stringify(workouts));
     });
 
-    
-    // Render workouts on screen by month
+    // Render sorted workouts from localStorage on screen by month
     const d = new Date();
     const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
     const currentMonth = monthNames[d.getMonth() - 1];
     workouts = JSON.parse(localStorage.getItem('workouts')) || [];
-    workouts.map(workout => {
+    const sortedWorkouts = workouts.sort((a, b) => parseInt(a.date.split(' ')[1]) - parseInt(b.date.split(' ')[1]));
+    sortedWorkouts.map(workout => {
         if(currentMonth.includes(workout.exercises[0].date.split(' ')[2]))
             display.innerHTML += `
                 <div class='workout-card'>
@@ -157,13 +155,10 @@ window.onload = () =>  {
     });
 
     // Remove item from array and ls on clicked x
-    $('.workout-card__close').click(function(){
-        var index = $('.workout-card__close').index(this);
+    $('.workout-card__close').click(function(e){
+        const clickedDate = e.target.parentNode.children[3].innerText;
+        const index = workouts.findIndex(x => x.date === clickedDate);
         workouts.splice(index, 1);
         localStorage.setItem('workouts', JSON.stringify(workouts));
-        console.log(JSON.parse(localStorage.getItem('workouts')))
     });
-
-    //Remove exercise from exercise list
-    
 }

@@ -1,6 +1,6 @@
 const d = new Date();
 const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
-const currentMonth = monthNames[d.getMonth() - 1]
+const currentMonth = monthNames[d.getMonth() - 1];
 const currentYear = d.getFullYear();
 const getDaysInMonth = (month,year) => new Date(year, month, 0).getDate();
 $('#month').append(`Overview of ${currentMonth} ${currentYear}`);
@@ -13,20 +13,25 @@ let allWorkouts = [];
 let workouts = JSON.parse(localStorage.getItem('workouts')) || [];
 workouts.map(workout => {
     // Filter done workouts by month
-    allWorkouts.push(workout);
+    workout.exercises.map(a => allWorkouts.push(a));
     if(currentMonth.includes(workout.exercises[0].date.split(' ')[2]) && workout.exercises){
         workout.exercises.map(a => doneByMonth.push(a));
     }
 });
 
-// Get all done exercises and sum their reps
-var counts = [];
-let unique = [...new Set(doneByMonth.map(a => a.name))]
-unique.map(i => counts.push({"name": i, "reps": []}))
-counts.map(i => doneByMonth.map(a => a.name === i.name && i.reps.push({"num": parseInt(a.reps), "date": a.date})));
+// Get all done exercises (by month and overall) and sum their reps
+let monthlyCounts = [];
+let overallCounts = [];
+let monthlyUinque = [...new Set(doneByMonth.map(a => a.name))];
+let overallUnique = [...new Set(allWorkouts.map(a => a.name))]
+monthlyUinque.map(i => monthlyCounts.push({"name": i, "reps": []}))
+overallUnique.map(i => overallCounts.push({"name": i, "reps": []}))
+monthlyCounts.map(i => doneByMonth.map(a => a.name === i.name && i.reps.push({"num": parseInt(a.reps), "date": a.date})));
+overallCounts.map(i => allWorkouts.map(a => a.name === i.name && i.reps.push({"num": parseInt(a.reps), "date": a.date})));
+
 //Sort by date ascending
-counts.map(count => count.reps.sort((a, b) => parseInt(b.date.split(' ')[1]) - parseInt(a.date.split(' ')[1])));
-counts.map(single => {
+monthlyCounts.map(count => count.reps.sort((a, b) => parseInt(b.date.split(' ')[1]) - parseInt(a.date.split(' ')[1])));
+monthlyCounts.map(single => {
     types.innerHTML += `
         <div class='workout-log'>
             <h3>${single.name} - ${single.reps.reduce((a, b) => a+b.num, 0)}</h3>
@@ -37,15 +42,13 @@ counts.map(single => {
 
 //Get all days I have worked for each workout
 const days = [];
-unique.map(single => {
-    counts.map(count => count.name === single && count.reps.map(a => days.push(parseInt(a.date.split(' ')[1]))));
+monthlyUinque.map(single => {
+    monthlyCounts.map(count => count.name === single && count.reps.map(a => days.push(parseInt(a.date.split(' ')[1]))));
     return days.sort((a, b) => a-b)
 });
 
-console.log(allWorkouts);
-
 const t = []
-counts.map(count => {
+monthlyCounts.map(count => {
     const singleData = []
     count.reps.map(a => singleData.push({ "y": a.num, "x": parseInt(a.date.split(' ')[1])}));
     const data = {
@@ -98,10 +101,9 @@ chart.render();
 
 // Getting the record of each exercise
 let singleRecord = [];
-counts.map(a => singleRecord.push({"name": a.name, "reps": a.reps.map(a => a.num)}));
+overallCounts.map(a => singleRecord.push({"name": a.name, "reps": a.reps.map(a => a.num)}));
 let max = [];
 singleRecord.map(a => max.push({"name": a.name, "max": Math.max(...a.reps)}))
-console.log(counts)
 
 max.map(single => {
     records.innerHTML += `
