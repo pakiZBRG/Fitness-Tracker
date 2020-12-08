@@ -80,7 +80,7 @@ window.onload = () =>  {
                         <option value='Deadlift'>Deadlift</option>
                         <option value='Dead Hang'>Dead Hang</option>
                         <option value='Bicep Curl'>Bicep Curl</option>
-                        <option value='Diver Pullup'>Diver Pullup</option>
+                        <option value='Superman'>Superman</option>
                         <option value='Barbel Row'>Barbel Row</option>
                         <option value='Shadow Boxing'>Shadow Boxing</option>
                     </select>
@@ -124,7 +124,7 @@ window.onload = () =>  {
     // Render sorted workouts from localStorage on screen by month
     const d = new Date();
     const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
-    const currentMonth = monthNames[d.getMonth() - 1];
+    const currentMonth = monthNames[d.getMonth()];
     workouts = JSON.parse(localStorage.getItem('workouts')) || [];
     const sortedWorkouts = workouts.sort((a, b) => parseInt(a.date.split(' ')[1]) - parseInt(b.date.split(' ')[1]));
     sortedWorkouts.map(workout => {

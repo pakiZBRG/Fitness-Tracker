@@ -1,6 +1,6 @@
 const d = new Date();
 const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
-const currentMonth = monthNames[d.getMonth() - 1];
+const currentMonth = monthNames[d.getMonth()];
 const currentYear = d.getFullYear();
 const getDaysInMonth = (month,year) => new Date(year, month, 0).getDate();
 $('#month').append(`Overview of ${currentMonth} ${currentYear}`);
@@ -62,15 +62,13 @@ monthlyCounts.map(count => {
         dataPoints: singleData.map(print => print)
     }
     t.push(data)
-})
+});
+// console.log(t)
 
 const chart = new CanvasJS.Chart("chartContainer", {
     animationEnabled: true,
     animationDuration: 1200,
     theme: 'light2',
-    title:{
-        text: "Overview"
-    },
     axisX: {
         title: "Date",
         interval: 1,
@@ -98,6 +96,68 @@ const chart = new CanvasJS.Chart("chartContainer", {
 });
 
 chart.render();
+// Get Chart for every exercises
+$('.workout-log').on('click', function(){
+    let displayWorkout = [];
+    for (const [key, value] of Object.entries(this.childNodes)) {
+        overallCounts.map(count => {
+            if(value.tagName === "H3" && count.name === value.innerHTML.split(' - ')[0])
+                displayWorkout.push(count)
+        });
+    }
+
+    const y = [];
+    const singleData = [];
+    displayWorkout.map(workout => {
+        workout.reps.map(a => singleData.push({ "y": a.num, "x": parseInt(a.date.split(' ')[1])}));
+        const data = {
+            name: workout.name,
+            connectNullData: true,
+            nullDataLineDashType: "solid",
+            fillOpacity: .15,
+            type: "area",
+            yValueFormatString: "### reps",
+            showInLegend: true,
+            dataPoints: singleData.map(print => print)
+        }
+        y.push(data)
+    });
+    
+    const chart2 = new CanvasJS.Chart("chartContainer2", {
+        animationEnabled: true,
+        animationDuration: 1200,
+        theme: 'light2',
+        title: {
+            text: y[0].name
+        },
+        axisX: {
+            title: "Date",
+            interval: 1,
+            gridThickness: 1,
+            labelFontStyle: 'italic',
+            gridColor: '#dcdcdc'
+        },
+        axisY: {
+            title: "Number of reps",
+            gridColor: '#dcdcdc',
+            tickThickness: 1,
+            gridThickness: 1,
+            labelFontWeight: "bolder",
+            labelFontSize: 16,
+            tickLength: 0
+        },
+        legend:{
+            cursor: "pointer",
+            fontSize: 16
+        },
+        toolTip:{
+            shared: true
+        },
+        data: y.map(exercise => exercise)
+    });
+    chart2.render();
+});
+
 
 // Getting the record of each exercise
 let singleRecord = [];
