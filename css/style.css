@@ -13,6 +13,10 @@ input, button {
   outline: none;
 }
 
+.red {
+  color: crimson;
+}
+
 #workout {
   display: -webkit-box;
   display: -ms-flexbox;

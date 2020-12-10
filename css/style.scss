@@ -9,5 +9,9 @@ body {
 p, h2, h3{margin: 0;}
 input, button {outline: none}
 
+.red{
+    color: crimson;
+}
+
 @import './components/modal';
 @import './components/log';

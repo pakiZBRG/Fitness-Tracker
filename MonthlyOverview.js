@@ -6,7 +6,6 @@ const getDaysInMonth = (month,year) => new Date(year, month, 0).getDate();
 $('#month').append(`Overview of ${currentMonth} ${currentYear}`);
 
 const types = document.getElementById('types');
-const records = document.getElementById('records');
 
 let doneByMonth = [];
 let allWorkouts = [];
@@ -14,9 +13,8 @@ let workouts = JSON.parse(localStorage.getItem('workouts')) || [];
 workouts.map(workout => {
     // Filter done workouts by month
     workout.exercises.map(a => allWorkouts.push(a));
-    if(currentMonth.includes(workout.exercises[0].date.split(' ')[2]) && workout.exercises){
+    if(currentMonth.includes(workout.exercises[0].date.split(' ')[2]) && workout.exercises)
         workout.exercises.map(a => doneByMonth.push(a));
-    }
 });
 
 // Get all done exercises (by month and overall) and sum their reps
@@ -28,7 +26,6 @@ monthlyUinque.map(i => monthlyCounts.push({"name": i, "reps": []}))
 overallUnique.map(i => overallCounts.push({"name": i, "reps": []}))
 monthlyCounts.map(i => doneByMonth.map(a => a.name === i.name && i.reps.push({"num": parseInt(a.reps), "date": a.date})));
 overallCounts.map(i => allWorkouts.map(a => a.name === i.name && i.reps.push({"num": parseInt(a.reps), "date": a.date})));
-
 //Sort by date ascending
 monthlyCounts.map(count => count.reps.sort((a, b) => parseInt(b.date.split(' ')[1]) - parseInt(a.date.split(' ')[1])));
 monthlyCounts.map(single => {
@@ -63,7 +60,6 @@ monthlyCounts.map(count => {
     }
     t.push(data)
 });
-// console.log(t)
 
 const chart = new CanvasJS.Chart("chartContainer", {
     animationEnabled: true,
@@ -96,8 +92,10 @@ const chart = new CanvasJS.Chart("chartContainer", {
 });
 
 chart.render();
-// Get Chart for every exercises
-$('.workout-log').on('click', function(){
+
+$('.workout-log').on('click', function(e){
+    // Get info for clicked exercises
+    console.log(e.currentTarget.children[0].innerHTML.split(' - ')[0])
     let displayWorkout = [];
     for (const [key, value] of Object.entries(this.childNodes)) {
         overallCounts.map(count => {
@@ -106,69 +104,28 @@ $('.workout-log').on('click', function(){
         });
     }
 
-    const y = [];
-    const singleData = [];
-    displayWorkout.map(workout => {
-        workout.reps.map(a => singleData.push({ "y": a.num, "x": parseInt(a.date.split(' ')[1])}));
-        const data = {
-            name: workout.name,
-            connectNullData: true,
-            nullDataLineDashType: "solid",
-            fillOpacity: .15,
-            type: "area",
-            yValueFormatString: "### reps",
-            showInLegend: true,
-            dataPoints: singleData.map(print => print)
-        }
-        y.push(data)
-    });
+   //Create an Object for every month in year
+    const exerciseByMonths = []
+    monthNames.map(month => exerciseByMonths.push({"name": month, "workout": '', "reps": []}))
+
+    // Push workouts with the same month as the array name
+    displayWorkout.map(workout => workout.reps.map(rep => exerciseByMonths.map(month => {
+            if(month.name.includes(rep.date.split(' ')[2]))
+                month.reps.push(rep);
+                month.workout = workout.name
+        })
+    ));
+
+    console.log(exerciseByMonths)
+
+    //Sort by reps and display all instance of the exercise
+    // displayWorkout.map(workout => workout.reps.sort((a, b) => b.num - a.num));
+    const singleWorkout = document.getElementById('displaySingleWorkout');
+    exerciseByMonths.map(workout => {
+        if(workout.reps)
+            console.log(workout)
+    })
+    // singleWorkout.children[0].children[1].classList.add('red')
+
     
-    const chart2 = new CanvasJS.Chart("chartContainer2", {
-        animationEnabled: true,
-        animationDuration: 1200,
-        theme: 'light2',
-        title: {
-            text: y[0].name
-        },
-        axisX: {
-            title: "Date",
-            interval: 1,
-            gridThickness: 1,
-            labelFontStyle: 'italic',
-            gridColor: '#dcdcdc'
-        },
-        axisY: {
-            title: "Number of reps",
-            gridColor: '#dcdcdc',
-            tickThickness: 1,
-            gridThickness: 1,
-            labelFontWeight: "bolder",
-            labelFontSize: 16,
-            tickLength: 0
-        },
-        legend:{
-            cursor: "pointer",
-            fontSize: 16
-        },
-        toolTip:{
-            shared: true
-        },
-        data: y.map(exercise => exercise)
-    });
-    chart2.render();
 });
-
-
-// Getting the record of each exercise
-let singleRecord = [];
-overallCounts.map(a => singleRecord.push({"name": a.name, "reps": a.reps.map(a => a.num)}));
-let max = [];
-singleRecord.map(a => max.push({"name": a.name, "max": Math.max(...a.reps)}))
-
-max.map(single => {
-    records.innerHTML += `
-        <div>
-            ${single.name} ${single.max}
-        </div>
-    `
-})
