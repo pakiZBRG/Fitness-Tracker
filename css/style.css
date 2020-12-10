@@ -3,6 +3,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Ubuntu';
+  background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
 }
 
 p, h2, h3 {
@@ -13,8 +15,15 @@ input, button {
   outline: none;
 }
 
-.red {
-  color: crimson;
+.header__title h2 {
+  text-align: center;
+  padding-top: 2rem;
+  font-size: 2rem;
+}
+
+.header__title p {
+  text-align: center;
+  padding: 0.5rem 0 1rem 0;
 }
 
 #workout {
@@ -39,12 +48,13 @@ input, button {
 }
 
 .black {
-  background: #333;
+  background: rgba(101, 64, 138, 0.5);
   color: #fff;
-  border-bottom: 2px solid #fff;
+  -webkit-transition: 500ms;
+  transition: 500ms;
 }
 
-#push, #pull, #legs, #rest {
+#push, #pull, #legs {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -59,7 +69,8 @@ input, button {
       -ms-flex-direction: column;
           flex-direction: column;
   padding: 1rem 0;
-  background: #333;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(101, 64, 138, 0.5)), to(rgba(101, 64, 138, 0.7)));
+  background: linear-gradient(rgba(101, 64, 138, 0.5), rgba(101, 64, 138, 0.7));
   color: #fff;
 }
 

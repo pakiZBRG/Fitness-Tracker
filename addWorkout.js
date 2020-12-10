@@ -111,16 +111,6 @@ window.onload = () =>  {
     });
     saveWorkout('#saveLegs');
 
-    //REST
-    $('#saveRest').on('click', function(){
-        workouts = JSON.parse(localStorage.getItem('workouts')) || [];
-        workouts.push({
-            "type": "rest",
-            "exercises": [{"name": "Rest", "reps": "", "date": final_date}]
-        })
-        localStorage.setItem('workouts', JSON.stringify(workouts));
-    });
-
     // Render sorted workouts from localStorage on screen by month
     const d = new Date();
     const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
@@ -137,8 +127,7 @@ window.onload = () =>  {
                         : workout.type === 'push' 
                             ? "<img src='./media/pushup.png'/>" 
                             : workout.type === 'legs' 
-                                ? "<img src='./media/leg.png'/>" 
-                                : "<img src='./media/rest.png'/>"}
+                                && "<img src='./media/leg.png'/>"}
                     <h2>${workout.type}</h2>
                     ${workout.exercises[0].date && `<p>${workout.exercises[0].date}</p>`}
                     <div>
@@ -154,7 +143,7 @@ window.onload = () =>  {
             `;
     });
 
-    // Remove item from array and ls on clicked x
+    // Remove item from array and localStorage on clicked x
     $('.workout-card__close').click(function(e){
         const clickedDate = e.target.parentNode.children[3].innerText;
         const index = workouts.findIndex(x => x.date === clickedDate);

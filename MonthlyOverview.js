@@ -26,6 +26,7 @@ monthlyUinque.map(i => monthlyCounts.push({"name": i, "reps": []}))
 overallUnique.map(i => overallCounts.push({"name": i, "reps": []}))
 monthlyCounts.map(i => doneByMonth.map(a => a.name === i.name && i.reps.push({"num": parseInt(a.reps), "date": a.date})));
 overallCounts.map(i => allWorkouts.map(a => a.name === i.name && i.reps.push({"num": parseInt(a.reps), "date": a.date})));
+
 //Sort by date ascending
 monthlyCounts.map(count => count.reps.sort((a, b) => parseInt(b.date.split(' ')[1]) - parseInt(a.date.split(' ')[1])));
 monthlyCounts.map(single => {
@@ -44,7 +45,7 @@ monthlyUinque.map(single => {
     return days.sort((a, b) => a-b)
 });
 
-const t = []
+const workoutData = []
 monthlyCounts.map(count => {
     const singleData = []
     count.reps.map(a => singleData.push({ "y": a.num, "x": parseInt(a.date.split(' ')[1])}));
@@ -58,13 +59,14 @@ monthlyCounts.map(count => {
         showInLegend: true,
         dataPoints: singleData.map(print => print)
     }
-    t.push(data)
+    workoutData.push(data)
 });
 
 const chart = new CanvasJS.Chart("chartContainer", {
     animationEnabled: true,
     animationDuration: 1200,
-    theme: 'light2',
+    theme: "dark2",
+    backgroundColor: "transparent",
     axisX: {
         title: "Date",
         interval: 1,
@@ -74,6 +76,7 @@ const chart = new CanvasJS.Chart("chartContainer", {
     },
     axisY: {
         title: "Number of reps",
+        padding: 2,
         gridColor: '#dcdcdc',
         tickThickness: 1,
         gridThickness: 1,
@@ -88,14 +91,13 @@ const chart = new CanvasJS.Chart("chartContainer", {
     toolTip:{
         shared: true
     },
-    data: t.map(exercise => exercise)
+    data: workoutData.map(exercise => exercise)
 });
 
 chart.render();
 
 $('.workout-log').on('click', function(e){
     // Get info for clicked exercises
-    console.log(e.currentTarget.children[0].innerHTML.split(' - ')[0])
     let displayWorkout = [];
     for (const [key, value] of Object.entries(this.childNodes)) {
         overallCounts.map(count => {
@@ -106,26 +108,34 @@ $('.workout-log').on('click', function(e){
 
    //Create an Object for every month in year
     const exerciseByMonths = []
-    monthNames.map(month => exerciseByMonths.push({"name": month, "workout": '', "reps": []}))
+    monthNames.map(month => exerciseByMonths.push({"name": month, "reps": []}))
 
     // Push workouts with the same month as the array name
     displayWorkout.map(workout => workout.reps.map(rep => exerciseByMonths.map(month => {
             if(month.name.includes(rep.date.split(' ')[2]))
                 month.reps.push(rep);
-                month.workout = workout.name
         })
     ));
 
-    console.log(exerciseByMonths)
-
     //Sort by reps and display all instance of the exercise
-    // displayWorkout.map(workout => workout.reps.sort((a, b) => b.num - a.num));
     const singleWorkout = document.getElementById('displaySingleWorkout');
+    exerciseByMonths.map(workout => workout.reps.sort((a, b) => b.num - a.num));
+    singleWorkout.innerHTML = `<h3>${e.currentTarget.children[0].textContent.split(' - ')[0]}</h3>`
     exerciseByMonths.map(workout => {
-        if(workout.reps)
-            console.log(workout)
-    })
-    // singleWorkout.children[0].children[1].classList.add('red')
+        if(workout.reps.length > 0)
+            singleWorkout.innerHTML += `
+                <div>
+                    <h2>${workout.name}</h2>
+                    ${workout.reps.map(rep => `<p>${rep.num} ${rep.date}</p>`).join('')}
+                </div>
+            `
+    });
 
-    
+    //Color top 3 workouts
+    const top3 = [...singleWorkout.children]
+    top3.map(single => {
+        single.children[1] && single.children[1].classList.add('green')
+        single.children[2] && single.children[2].classList.add('yellow')
+        single.children[3] && single.children[3].classList.add('red')
+    });
 });

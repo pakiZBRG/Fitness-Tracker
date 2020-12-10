@@ -9,14 +9,15 @@
     </head>
 
     <body>
-        <h2>Fitness Journal</h2>
-        <p>Add your workouts and keep them in one place.</p>
-        <div id='workout'>
-            <h3 id='work' rel='push'>Push</h3>
-            <h3 id='work' rel='pull'>Pull</h3>
-            <h3 id='work' rel='legs'>Legs</h3>
-            <h3 id='work' rel='rest'>Rest</h3>
-        </div>
+        <header class="header__title">
+            <h2>Fitness Journal</h2>
+            <p>Add your workouts and keep them in one place.</p>
+            <div id='workout'>
+                <h3 id='work' rel='push'>Push</h3>
+                <h3 id='work' rel='pull'>Pull</h3>
+                <h3 id='work' rel='legs'>Legs</h3>
+            </div>
+        </header>
         <div class='workout-types'>
             <div id='push' style='display:none'>
                 <h3>Push</h3>
@@ -80,18 +81,12 @@
                 <input type='date'/>
                 <button id='saveLegs'>Save Workout</button>
             </div>
-            
-            <div id='rest' style='display:none'>
-                <h3>Rest</h3>
-                <p>Enough is enough</p>
-                <button id='saveRest'>Save Workout</button>
-            </div>
         </div>
 
         <div id='displayWorkouts'></div>
 
         <h3 id='month'></h3>
-        <div id="chartContainer" style="height: 500px; width: 85%; margin: 0 auto"></div>
+        <div id="chartContainer" style="height: 500px; width: 95%; margin: 0 auto"></div>
         <div id='types'></div>
         <div id='displaySingleWorkout'></div>
 
