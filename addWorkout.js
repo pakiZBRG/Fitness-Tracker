@@ -3,11 +3,6 @@ window.onload = () =>  {
     const single = document.getElementsByClassName('single');
     let workouts = [];
 
-    const date = new Date();
-    const human_date = date.toUTCString().substr(0, 16).replace(',', '');
-    const my_date = human_date.split(' ');
-    const final_date = `${my_date[0]}, ${my_date[1]} ${my_date[2]} ${my_date[3]}`;
-
     const saveWorkout = (loc) => {
         $(loc).on('click', function(e){
             let exercise = [];

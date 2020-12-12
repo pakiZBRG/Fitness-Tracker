@@ -12,5 +12,6 @@ p, h2, h3{margin: 0;}
 input, button {outline: none}
 
 @import './components/header';
+@import './components/workoutTypes';
 @import './components/modal';
 @import './components/log';

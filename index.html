@@ -18,8 +18,8 @@
                 <h3 id='work' rel='legs'>Legs</h3>
             </div>
         </header>
-        <div class='workout-types'>
-            <div id='push' style='display:none'>
+        <section class='workout__types'>
+            <div id='push' class='workout__types--push' style='display:none'>
                 <h3>Push</h3>
                 <button id='addPush'>+</button>
                 <div id='pushes'>
@@ -41,7 +41,7 @@
                 <button id='savePush'>Save Workout</button>
             </div>
 
-            <div id='pull' style='display:none'>
+            <div id='pull' class='workout__types--pull' style='display:none'>
                 <h3>Pull</h3>
                 <button id='addPull'>+</button>
                 <div id='pulls'>
@@ -62,7 +62,7 @@
                 <button id='savePull'>Save Workout</button>
             </div>
 
-            <div id='legs' style='display:none'>
+            <div id='legs' class='workout__types--legs' style='display:none'>
                 <h3>Legs</h3>
                 <button id='addLegs'>+</button>
                 <div id='legses'>
@@ -81,7 +81,7 @@
                 <input type='date'/>
                 <button id='saveLegs'>Save Workout</button>
             </div>
-        </div>
+        </section>
 
         <div id='displayWorkouts'></div>
 
