@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Ubuntu';
-    background-image: linear-gradient(135deg, rgb(102, 126, 234) 0%, rgb(118, 75, 162) 100%);
+    background: #333;
     color: #fff;
 }
 
@@ -15,3 +15,4 @@ input, button {outline: none}
 @import './components/workoutTypes';
 @import './components/modal';
 @import './components/log';
+@import './components/card';

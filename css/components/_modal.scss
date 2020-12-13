@@ -16,22 +16,6 @@
     display: none;
 }
 
-.black{
-    background: rgba(101, 64, 138, 0.5);
-    color: #fff;
-    transition: 500ms;
-}
-
-#push, #pull, #legs{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 1rem 0;
-    background: linear-gradient(rgba(101, 64, 138, 0.5), rgba(101, 64, 138, 0.7));
-    color: #fff;
-}
-
 #displayWorkouts, #displayRecords{
     width: 85%;
     margin: 4rem auto 0 auto;
@@ -43,10 +27,8 @@
 .workout-card{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0px 0px 10px #333;
-    padding: 1rem 2rem;
+    color: #333;
+    background: #dcdcdc;
     margin: 0.5rem;
     min-width: 200px;
     position: relative;
@@ -54,18 +36,77 @@
         visibility: visible;
         opacity: 1;
     }
-    & img{
-        height: 100px;
+    &__background{
+        height: 350px;
+        width: 250px;
+        position: relative;
+        transition: 400ms;
+        &:hover &--white{
+            height: 140px;
+            overflow-y: auto;
+        }
+        &:hover &--exercise p{
+            opacity: 1;
+        }
+        & img{
+            height: 100%;
+            width: 100%;
+            filter: brightness(30%);
+            object-fit: cover;
+        }
+
+        & h2{
+            position: absolute;
+            top: 6%;
+            left: 10%;
+            color: #dcdcdc;
+            text-transform: uppercase;
+        }
+
+        &--date{
+            position: absolute;
+            top: 15%;
+            left: 10%;
+            color: rgb(167, 167, 167);
+        }
+
+        &--white{
+            background: rgba(0,0,0,.7);
+            color: #fff;
+            position: absolute;
+            bottom: 0%;
+            left: 0%;
+            width: 100%;
+            height: 0;
+            transition: 400ms;
+        }
+
+        &--exercise{
+            width: 80%;
+            margin: 0.5rem auto;
+            & p{
+                display: flex;
+                justify-content: space-between;
+                margin: 0.2rem;
+                opacity: 0;
+                & .exercise {
+                    font-size: 1.1rem;
+                }
+            }
+        }
     }
+
     &__close{
-        font-size:2rem;
+        font-size: 2rem;
         position: absolute;
         top: -3%;
         right: 2%;
         cursor: pointer;
+        color: rgb(182, 182, 182);
         visibility: hidden;
         opacity: 0;
         transition: 400ms;
+        z-index: 1;
     }
 }
 

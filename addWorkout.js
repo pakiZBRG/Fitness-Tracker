@@ -117,22 +117,24 @@ window.onload = () =>  {
             display.innerHTML += `
                 <div class='workout-card'>
                     <span class='workout-card__close'>&times;</span>
-                    ${workout.type === 'pull' 
-                        ? "<img src='./media/pullup.png'/>" 
-                        : workout.type === 'push' 
-                            ? "<img src='./media/pushup.png'/>" 
-                            : workout.type === 'legs' 
-                                && "<img src='./media/leg.png'/>"}
-                    <h2>${workout.type}</h2>
-                    ${workout.exercises[0].date && `<p>${workout.exercises[0].date}</p>`}
-                    <div>
-                        ${workout.exercises[0].name 
-                            ? workout.exercises.map(exercise => `
-                                <div>
-                                    <p>${exercise.name} -> ${exercise.reps}</p>
-                                </div>
-                            `).join('')
-                            : ''}
+                    <div class='workout-card__background'>
+                        ${workout.type === 'pull' 
+                            ? "<img src='./media/pull.jpeg'/>" 
+                            : workout.type === 'push' 
+                                ? "<img src='./media/push.jpeg'/>" 
+                                : "<img src='./media/legs.jpeg'/>"}
+                        <h2>${workout.type}</h2>
+                        <p class='workout-card__background--date'>${workout.exercises[0].date}</p>
+                        <div class='workout-card__background--white'>
+                            <div class='workout-card__background--exercise'>
+                                ${workout.exercises.map(exercise => `
+                                    <p>
+                                        <span class='exercise'>${exercise.name}</span>
+                                        <span class='rep'>${exercise.reps}</span>
+                                    </p>
+                                `).join('')}
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;

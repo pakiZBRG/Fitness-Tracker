@@ -1,0 +1,7 @@
+.workout-card:hover{
+    transition: 400ms;
+}
+
+.cards:hover > .workout-card:not(:hover){
+    filter: blur(3px);
+}
