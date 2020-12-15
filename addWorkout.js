@@ -7,11 +7,11 @@ window.onload = () =>  {
         $(loc).on('click', function(e){
             let exercise = [];
             for (const [key, value] of Object.entries(single)) {
-                if(value.children[1].value && e.target.previousElementSibling.value){
+                if(value.children[1].children[1].value && e.target.previousElementSibling.value){
                     const savedDate = e.target.previousElementSibling.valueAsDate.toUTCString()
                     exercise.push({
-                        'name': value.children[0].value,
-                        'reps': value.children[1].value,
+                        'name': value.children[0].children[1].value,
+                        'reps': value.children[1].children[1].value,
                         "date": savedDate.substr(0, 16)
                     })
                 }
@@ -27,7 +27,7 @@ window.onload = () =>  {
                 alert('Insert exercises')
             }
             for (const [key, value] of Object.entries(single)) {
-                value.children[1].value = '';
+                value.children[1].children[1].value = '';
             }
             localStorage.setItem('workouts', JSON.stringify(workouts));
         })
@@ -45,20 +45,26 @@ window.onload = () =>  {
 
     //PUSH
     $('#addPush').on('click', function(e){
-        if(e.target.parentNode.id === 'push'){
+        if(e.target.parentNode.parentNode.id === 'push'){
             $('#pushes').append(`
                 <div class='single'>
-                    <select id='push-wourkouts'>
-                        <option value='Pushups'>Pushups</option>
-                        <option value='Dips'>Dips</option>
-                        <option value='Bench Press'>Bench Press</option>
-                        <option value='Triceps Extension'>Triceps Extension</option>
-                        <option value='Military Press'>Military Press</option>
-                        <option value='Cable Pull'>Cable Pull</option>
-                        <option value='Hindu Pushups'>Hindu Pushups</option>
-                        <option value='Ab Rollout'>Ab Rollout</option>
-                    </select>
-                    <input type='text' placeholder='Number of reps' min="0"/>
+                    <div>
+                        <label for='push-workouts'>Choose exercise</label>
+                        <select id='push-workouts'>
+                            <option value='Pushups'>Pushups</option>
+                            <option value='Dips'>Dips</option>
+                            <option value='Bench Press'>Bench Press</option>
+                            <option value='Triceps Extension'>Triceps Extension</option>
+                            <option value='Military Press'>Military Press</option>
+                            <option value='Cable Pull'>Cable Pull</option>
+                            <option value='Hindu Pushups'>Hindu Pushups</option>
+                            <option value='Ab Rollout'>Ab Rollout</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for='reps'>How many reps?</label>
+                        <input type='number' placeholder='Input number' id='reps' min="0"/>
+                    </div>
                 </div>
             `);
         }
@@ -67,19 +73,25 @@ window.onload = () =>  {
 
     //PULL
     $('#addPull').on('click', function(e){
-        if(e.target.parentNode.id === 'pull'){
+        if(e.target.parentNode.parentNode.id === 'pull'){
             $('#pulls').append(`
                 <div class='single'>
-                    <select id='pull-wourkouts'>
-                        <option value='Pullups'>Pullups</option>
-                        <option value='Deadlift'>Deadlift</option>
-                        <option value='Dead Hang'>Dead Hang</option>
-                        <option value='Bicep Curl'>Bicep Curl</option>
-                        <option value='Superman'>Superman</option>
-                        <option value='Barbel Row'>Barbel Row</option>
-                        <option value='Shadow Boxing'>Shadow Boxing</option>
-                    </select>
-                    <input type='number' placeholder='Number of reps' min="0"/>
+                    <div>
+                        <label for='pull-workouts'>Choose exercise</label>
+                        <select id='pull-workouts'>
+                            <option value='Pullups'>Pullups</option>
+                            <option value='Deadlift'>Deadlift</option>
+                            <option value='Dead Hang'>Dead Hang</option>
+                            <option value='Bicep Curl'>Bicep Curl</option>
+                            <option value='Superman'>Superman</option>
+                            <option value='Barbel Row'>Barbel Row</option>
+                            <option value='Shadow Boxing'>Shadow Boxing</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for='reps'>How many reps?</label>
+                        <input type='number' placeholder='Input number' id='reps' min="0"/>
+                    </div>
                 </div>
             `);
         }
@@ -88,18 +100,24 @@ window.onload = () =>  {
 
     //LEGS
     $('#addLegs').on('click', function(e){
-        if(e.target.parentNode.id === 'legs'){
+        if(e.target.parentNode.parentNode.id === 'legs'){
             $('#legses').append(`
                 <div class='single'>
-                <select id='legs-wourkouts'>
-                        <option value='Squat'>Squat</option>
-                        <option value='Calf Raises'>Calf Raises</option>
-                        <option value='Pistol Squat'>Pistol Squat</option>
-                        <option value='Weighted Squat'>Weighted Squat</option>
-                        <option value='Romanian Deadlift'>Romanian Deadlift</option>
-                        <option value='Jogging/Sprinting'>Jogging/Sprinting</option>
-                    </select>
-                    <input type='number' placeholder='Number of reps' min="0"/>
+                    <div>
+                        <label for='legs-workouts'>Choose exercise</label>
+                        <select id='legs-workouts'>
+                            <option value='Squat'>Squat</option>
+                            <option value='Calf Raises'>Calf Raises</option>
+                            <option value='Pistol Squat'>Pistol Squat</option>
+                            <option value='Weighted Squat'>Weighted Squat</option>
+                            <option value='Romanian Deadlift'>Romanian Deadlift</option>
+                            <option value='Jogging/Sprinting'>Jogging/Sprinting</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for='reps'>How many reps?</label>
+                        <input type='number' placeholder='Input number' id='reps' min="0"/>
+                    </div>
                 </div>
             `);
         }
@@ -129,8 +147,8 @@ window.onload = () =>  {
                             <div class='workout-card__background--exercise'>
                                 ${workout.exercises.map(exercise => `
                                     <p>
-                                        <span class='exercise'>${exercise.name}</span>
-                                        <span class='rep'>${exercise.reps}</span>
+                                        <span>${exercise.name}</span>
+                                        <span>${exercise.reps}</span>
                                     </p>
                                 `).join('')}
                             </div>
@@ -142,7 +160,7 @@ window.onload = () =>  {
 
     // Remove item from array and localStorage on clicked x
     $('.workout-card__close').click(function(e){
-        const clickedDate = e.target.parentNode.children[3].innerText;
+        const clickedDate = e.target.parentNode.children[1].children[2].innerText;
         const index = workouts.findIndex(x => x.date === clickedDate);
         workouts.splice(index, 1);
         localStorage.setItem('workouts', JSON.stringify(workouts));

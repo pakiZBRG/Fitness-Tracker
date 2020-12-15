@@ -21,72 +21,129 @@
         <section class='workout__types'>
             <div id='push' class='workout__types--push' style='display:none'>
                 <h3>Push</h3>
-                <button id='addPush'>+</button>
+                <button class="learn-more">
+                    <span class="circle">
+                        <span class="icon arrow"></span>
+                    </span>
+                    <span class="button-text" id='addPush'>Add</span>
+                </button>
                 <div id='pushes'>
                     <div class='single'>
-                        <select id='push-wourkouts'>
-                            <option value='Pushups'>Pushups</option>
-                            <option value='Dips'>Dips</option>
-                            <option value='Bench Press'>Bench Press</option>
-                            <option value='Triceps Extension'>Triceps Extension</option>
-                            <option value='Military Press'>Military Press</option>
-                            <option value='Cable Pull'>Cable Pull</option>
-                            <option value='Hindu Pushups'>Hindu Pushups</option>
-                            <option value='Ab Rollout'>Ab Rollout</option>
-                        </select>
-                        <input type='number' placeholder='Number of reps' min="0"/>
+                        <div>
+                            <label for='push-workouts'>Choose exercise</label>
+                            <select id='push-workouts'>
+                                <option value='Pushups'>Pushups</option>
+                                <option value='Dips'>Dips</option>
+                                <option value='Bench Press'>Bench Press</option>
+                                <option value='Triceps Extension'>Triceps Extension</option>
+                                <option value='Military Press'>Military Press</option>
+                                <option value='Cable Pull'>Cable Pull</option>
+                                <option value='Hindu Pushups'>Hindu Pushups</option>
+                                <option value='Ab Rollout'>Ab Rollout</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for='reps'>How many reps?</label>
+                            <input type='number' placeholder='Input number' id='reps' min="0"/>
+                        </div>
                     </div>
                 </div>
-                <input type='date'/>
-                <button id='savePush'>Save Workout</button>
+                <label for='date'>Date</label>
+                <input type='date' id='date'/>
+                <button
+                    class='btn effect04'
+                    id='savePush'
+                    data-sm-link-text="One more rep, Bro"
+                >
+                    <span>Save Workout</span>
+                </button>
             </div>
 
             <div id='pull' class='workout__types--pull' style='display:none'>
                 <h3>Pull</h3>
-                <button id='addPull'>+</button>
+                <button class="learn-more">
+                    <span class="circle">
+                        <span class="icon arrow"></span>
+                    </span>
+                    <span class="button-text" id='addPull'>Add</span>
+                </button>
                 <div id='pulls'>
                     <div class='single'>
-                        <select id='pull-wourkouts'>
-                            <option value='Pullups'>Pullups</option>
-                            <option value='Deadlift'>Deadlift</option>
-                            <option value='Dead Hang'>Dead Hang</option>
-                            <option value='Bicep Curl'>Bicep Curl</option>
-                            <option value='Superman'>Superman</option>
-                            <option value='Barbel Row'>Barbel Row</option>
-                            <option value='Shadow Boxing'>Shadow Boxing</option>
-                        </select>
-                        <input type='number' placeholder='Number of reps' min="0"/>
+                        <div>
+                            <label for='pull-workouts'>Choose exercise</label>
+                            <select id='pull-workouts'>
+                                <option value='Pullups'>Pullups</option>
+                                <option value='Deadlift'>Deadlift</option>
+                                <option value='Dead Hang'>Dead Hang</option>
+                                <option value='Bicep Curl'>Bicep Curl</option>
+                                <option value='Superman'>Superman</option>
+                                <option value='Barbel Row'>Barbel Row</option>
+                                <option value='Shadow Boxing'>Shadow Boxing</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for='reps'>How many reps?</label>
+                            <input type='number' placeholder='Input number' id='reps' min="0"/>
+                        </div>
                     </div>
                 </div>
-                <input type='date'/>
-                <button id='savePull'>Save Workout</button>
+                <label for='date'>Date</label>
+                <input type='date' id='date'/>
+                <button
+                    class='btn effect04'
+                    id='savePull'
+                    data-sm-link-text="One more rep, Bro"
+                >
+                    <span>Save Workout</span>
+                </button>
             </div>
 
             <div id='legs' class='workout__types--legs' style='display:none'>
                 <h3>Legs</h3>
-                <button id='addLegs'>+</button>
+                <button class="learn-more">
+                    <span class="circle">
+                        <span class="icon arrow"></span>
+                    </span>
+                    <span class="button-text" id='addLegs'>Add</span>
+                </button>
                 <div id='legses'>
                     <div class='single'>
-                        <select id='legs-wourkouts'>
-                            <option value='Squat'>Squat</option>
-                            <option value='Calf Raises'>Calf Raises</option>
-                            <option value='Pistol Squat'>Pistol Squat</option>
-                            <option value='Weighted Squat'>Weighted Squat</option>
-                            <option value='Romanian Deadlift'>Romanian Deadlift</option>
-                            <option value='Jogging/Sprinting'>Jogging/Sprinting</option>
-                        </select>
-                        <input type='number' placeholder='Number of reps' min="0"/>
+                        <div>
+                            <label for='legs-workouts'>Choose exercise</label>
+                            <select id='legs-workouts'>
+                                <option value='Squat'>Squat</option>
+                                <option value='Calf Raises'>Calf Raises</option>
+                                <option value='Pistol Squat'>Pistol Squat</option>
+                                <option value='Weighted Squat'>Weighted Squat</option>
+                                <option value='Romanian Deadlift'>Romanian Deadlift</option>
+                                <option value='Jogging/Sprinting'>Jogging/Sprinting</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for='reps'>How many reps?</label>
+                            <input type='number' placeholder='Input number' id='reps' min="0"/>
+                        </div>
                     </div>
                 </div>
-                <input type='date'/>
-                <button id='saveLegs'>Save Workout</button>
+                <label for='date'>Date</label>
+                <input type='date' id='date'/>
+                <button
+                    class='btn effect04'
+                    id='saveLegs'
+                    data-sm-link-text="One more rep, Bro"
+                >
+                    <span>Save Workout</span>
+                </button>
             </div>
         </section>
 
         <div id='displayWorkouts' class='cards'></div>
 
         <h3 id='month'></h3>
-        <div id="chartContainer" style="height: 500px; width: 95%; margin: 0 auto"></div>
+        <div class='chartContainer'>
+            <div id="chartContainer" class='chartContainer--canvas'></div>
+        </div>
+        <h2 id='types--name'>View exercises by workout</h2>
         <div id='types'></div>
         <div id='displaySingleWorkout'></div>
 

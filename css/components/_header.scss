@@ -12,9 +12,11 @@
 }
 
 .black{
-    background: #dcdcdc;
-    color: #333;
-    transition: 500ms;
+    border-top-right-radius: 60px;
+    border-top-left-radius: 60px;
+    background: #fff;
+    color: #000;
+    transition: background 500ms;
 }
 
 #push, #pull, #legs{
@@ -23,6 +25,47 @@
     justify-content: center;
     flex-direction: column;
     padding: 1rem 0;
-    background: #dcdcdc;
-    color: #333;
+    background: #fff;
+    color: #000;
+}
+
+.single{
+    display: flex;
+    flex-direction: row;
+    & div{
+        display: flex;
+        flex-direction: column;
+        margin: 0.6rem;
+        & select {
+            height: 35px;
+            padding: 5px 55px 5px 0px;
+            font-size: 18px;
+            margin: 5px 0;
+            color: #000;
+            border: none;
+            border-bottom: 2px solid #333;
+            appearance: none;
+            background: url("/media/dropdown.png") 96% / 15% no-repeat;
+            background-size: 15px;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+            font-size: 18px;
+            height: 35px;
+            border: none;
+            border-bottom: 2px solid #333;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    }
+}
+input[type=date]{
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #333;
+    margin: 5px 0;
+    padding: 3px 0;
 }

@@ -5,8 +5,6 @@ const currentYear = d.getFullYear();
 const getDaysInMonth = (month,year) => new Date(year, month, 0).getDate();
 $('#month').append(`Overview of ${currentMonth} ${currentYear}`);
 
-const types = document.getElementById('types');
-
 let doneByMonth = [];
 let allWorkouts = [];
 let workouts = JSON.parse(localStorage.getItem('workouts')) || [];
@@ -32,8 +30,28 @@ monthlyCounts.map(count => count.reps.sort((a, b) => parseInt(b.date.split(' ')[
 monthlyCounts.map(single => {
     types.innerHTML += `
         <div class='workout-log'>
-            <h3>${single.name} - ${single.reps.reduce((a, b) => a+b.num, 0)}</h3>
-            ${single.reps.map(a => `<p>${a.date.substr(5, 11)} - ${a.num}</p>`).join('')}
+            <div class='workout-log--row'>
+                <div>
+                    <label for='name'>Name</label>
+                    <h3 id='name name--workout'>${single.name}</h3>
+                </div>
+                <div style='align-items: end'>
+                    <label for='total'>Total</label>
+                    <span id='total'>${single.reps.reduce((a, b) => a+b.num, 0)}</span>
+                </div>
+            </div>
+            <div class='workout-log--column'>
+                <div>
+                    <label for='date'>Date</label>
+                    <label for='reps'>Reps</label>
+                </div>
+                ${single.reps.map(a => `
+                    <div>
+                        <span id='date'>${a.date.substr(5, 11)}</span>
+                        <span id='reps'>${a.num}</span>
+                    </div>
+                `).join('')}
+            </div>
         </div>
     `
 });
@@ -44,6 +62,7 @@ monthlyUinque.map(single => {
     monthlyCounts.map(count => count.name === single && count.reps.map(a => days.push(parseInt(a.date.split(' ')[1]))));
     return days.sort((a, b) => a-b)
 });
+
 
 const workoutData = []
 monthlyCounts.map(count => {
@@ -86,7 +105,15 @@ const chart = new CanvasJS.Chart("chartContainer", {
     },
     legend:{
         cursor: "pointer",
-        fontSize: 16
+        fontSize: 16,
+        itemclick: function (e) {
+            if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                e.dataSeries.visible = false;
+            } else {
+                e.dataSeries.visible = true;
+            }
+            e.chart.render();
+        }
     },
     toolTip:{
         shared: true
@@ -99,12 +126,16 @@ chart.render();
 $('.workout-log').on('click', function(e){
     // Get info for clicked exercises
     let displayWorkout = [];
+    // console.log(e.target.children[0].children[0].children[1].tagName)
+    console.log(e.target)
     for (const [key, value] of Object.entries(this.childNodes)) {
         overallCounts.map(count => {
             if(value.tagName === "H3" && count.name === value.innerHTML.split(' - ')[0])
                 displayWorkout.push(count)
         });
     }
+
+    console.log(displayWorkout)
 
    //Create an Object for every month in year
     const exerciseByMonths = []
